@@ -1,6 +1,25 @@
 "# decrypt_pdf" 
 
-PDF 파일의 '암호 해제'가 아닌, 암호가 없는 동일한 내용의 파일을 생성하는 프로그램
+PDF 파일의 '암호 해제'가 아닌, 암호가 없는 동일한 내용의 파일을 생성하는 코드. (읽기 권한 필수)
+
+
+
+2020.11.28  
+pikepdf 사용시 정상 작동
+
+```python
+import pikepdf
+
+input_pdf = pikepdf.Pdf.open('test.pdf')
+pdf = pikepdf.Pdf.new()
+
+for n, page in enumerate(input_pdf.pages):
+    pdf.pages.append(page)
+    
+pdf.save('test_decrypted.pdf')
+```
+
+
 
 
 2020.11.19

@@ -1,20 +1,21 @@
 import os
-from PyPDF2 import PdfFileReader, PdfFileWriter
+import pikepdf
 
 def decrypt_pdf(file_name):
-
     input_path = os.path.join(os.getcwd(), file_name)
     output_path = os.path.join(os.getcwd(), "decrypted_"+file_name)
+    input_pdf = pikepdf.Pdf.open(input_path)
+    pdf = pikepdf.Pdf.new()
 
-    with open(input_path, 'rb') as input_file, open(output_path, 'wb') as output_file:
-        reader = PdfFileReader(input_file)
-
-        writer = PdfFileWriter()
-
-        for i in range(reader.getNumPages()):
-            writer.addPage(reader.getPage(i))
+    for _, page in enumerate(input_pdf.pages):
+        pdf.pages.append(page)
         
-        writer.write(output_file)
+    pdf.save(output_path)
+    input_pdf.close()
+    print("saved at : {}".format(output_path))
 
 if __name__ == "__main__":
-    decrypt_pdf(os.sys.argv[1])
+    if len(os.sys.argv)>1:
+        decrypt_pdf(os.sys.argv[1])
+    else:
+        print("re-run with file name")
